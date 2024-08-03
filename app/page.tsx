@@ -1,9 +1,9 @@
-import GameSection from '@/components/GameSection';
+import GameRules from '@/components/GameRules';
 
 export default function Home() {
     return (
-        <main className='bg-gray-600 text-white font-mono'>
-            <GameSection />
+        <main className=''>
+            <GameRules />
         </main>
     );
 }

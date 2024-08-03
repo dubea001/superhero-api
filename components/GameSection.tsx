@@ -78,7 +78,14 @@ const GameSection: React.FC = () => {
         const stats2 = parseInt(superHeroData2.powerstats[randomQuestion]);
         setCurrentStat1(stats1);
         setCurrentStat2(stats2);
-        if (stats1 === stats2) {
+
+        if (isNaN(stats1) && isNaN(stats2)) {
+            setCorrectAnswer(0);
+        } else if (isNaN(stats1) && !isNaN(stats2)) {
+            setCorrectAnswer(2);
+        } else if (!isNaN(stats1) && isNaN(stats2)) {
+            setCorrectAnswer(1);
+        } else if (stats1 === stats2) {
             setCorrectAnswer(0);
         } else if (stats1 > stats2) {
             setCorrectAnswer(1);
@@ -98,7 +105,7 @@ const GameSection: React.FC = () => {
 
         setTimeout(() => {
             generateNewRound();
-        }, 20000);
+        }, 5000);
     };
 
     const generateNewRound = () => {
@@ -118,28 +125,17 @@ const GameSection: React.FC = () => {
                 </h1>
             )}
             {feedBack && (
-                <div className='border border-black'>
+                <div className=''>
                     <p className='text-lg font-semibold text-center my-4'>
                         {feedBack}
                     </p>
                     {currentStat1 !== null && currentStat2 !== null && (
                         <p className='font-bold text-lg md:text-xl'>
-                            {superHeroData1!.name}'s {currentStatName}:
+                            {superHeroData1!.name}'s {currentStatName}:{' '}
                             {currentStat1}, {superHeroData2!.name}'s{' '}
                             {currentStatName}: {currentStat2}
                         </p>
                     )}
-                </div>
-            )}
-
-            {question && (
-                <div className='mt-4'>
-                    <button
-                        onClick={() => handleAnswer(0)}
-                        className='border rounded hover:bg-white hover:text-gray-600 transition-all duration-200 border-white px-8 py-2 md:px-12'
-                    >
-                        Equal {question}
-                    </button>
                 </div>
             )}
             <div className='flex gap-4 md:gap-8 p-2 my-4'>
@@ -182,6 +178,16 @@ const GameSection: React.FC = () => {
                     <SyncLoader color='#ffffff' speedMultiplier={0.5} />
                 )}
             </div>
+            {question && (
+                <div className='mt-4'>
+                    <button
+                        onClick={() => handleAnswer(0)}
+                        className='rounded bg-white text-gray-800 hover:border hover:border-white hover:bg-transparent hover:text-white transition-all duration-200 px-8 py-2 md:px-12'
+                    >
+                        Equal {question}
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
